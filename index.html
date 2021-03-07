@@ -1,3 +1,75 @@
 <html>
-    <title>MAGWOM</title>
+    <head>
+        <title>MAGWOM</title>
+        <meta name="description" content="Crushing heads with our butts.">
+        <meta name="keywords" content="CS,team,players,magwom, magenta wombats">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial;
+                background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(64,64,64,1) 100%);
+                background-color: #000;
+                margin: 0;
+            }
+
+            .header {
+                height: 100vh;
+                width: 100%;
+                background-image: url('magwom.png');
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-position: bottom center;
+                background-size: contain;
+            }
+
+            .main {
+                background-color: #fff;
+                color: #000;
+            }
+
+            .players {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .player {
+                width: 128px;
+                height: 128px;
+                border-radius: 64px;
+                margin: 1rem;
+            }
+
+           .footer {
+                background-color: #000;
+                color: #fff;
+            }
+
+            .footer p { margin: 0; }
+
+            .container {
+                margin: auto;
+                max-width: 960px;
+                padding: 1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header"></header>
+        <main class="main">
+            <div class="container">
+                <h1>Team</h1>
+                <div class="players">
+                    <img src="blue-wombat.png" class="player" alt="Blue Wombat" />
+                    <img src="green-wombat.png" class="player" alt="Green Wombat" />
+                    <img src="orange-wombat.png" class="player" alt="Orange Wombat" />
+                    <img src="purple-wombat.png" class="player" alt="Purple Wombat" />
+                    <img src="yellow-wombat.png" class="player" alt="Yellow Wombat" />
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div class="container"><p>&copy; MAGWOM 2021</p></div>
+        </footer>
+    </body>
 </html>

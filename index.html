@@ -88,7 +88,8 @@
             background-color: #f6f6f9
         }
 
-        .stats td, .stats th {
+        .stats td,
+        .stats th {
             padding: .5rem;
             border: 1px solid #ddd;
         }
@@ -98,11 +99,13 @@
             border-top: 1px solid #ccc;
         }
 
-        .kd, .kddiff {
+        .kd,
+        .kddiff {
             text-align: center;
         }
 
-        .money, .score {
+        .money,
+        .score {
             text-align: right;
         }
 
@@ -127,6 +130,28 @@
         section {
             padding: 4rem 0;
         }
+
+        .stats tr.player[data-steamid="76561197966071406"] .name {
+            font-weight: bold;
+            color: #68A3E5;
+        }
+
+        .stats tr.player[data-steamid="76561197971672596"] .name {
+            color: #109856;
+        }
+
+        .stats tr.player[data-steamid="76561198836549192"] .name {
+            color: #EDA338;
+        }
+
+        .stats tr.player[data-steamid="76561197999604935"] .name {
+            color: #803CA1;
+        }
+
+        .stats tr.player[data-steamid="76561197963935371"] .name {
+            color: #E6F13D;
+        }
+
     </style>
 </head>
 
@@ -160,58 +185,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="player player-0">
-                            <td class="name"></td>
-                            <td class="health">
-                                <progress min="0" max="100" value="0"></progress>
-                            </td>
-                            <td class="money"></td>
-                            <td class="kd"></td>
-                            <td class="kddiff"></td>
-                            <td class="score"></td>
-                        </tr>
-                        <tr class="player player-1">
-                            <td class="name"></td>
-                            <td class="health">
-                                <progress min="0" max="100" value="0"></progress>
-                            </td>
-                            <td class="money"></td>
-                            <td class="kd"></td>
-                            <td class="kddiff"></td>
-                            <td class="score"></td>
-                        </tr>
-                        <tr class="player player-2">
-                            <td class="name"></td>
-                            <td class="health">
-                                <progress min="0" max="100" value="0"></progress>
-                            </td>
-                            <td class="money"></td>
-                            <td class="kd"></td>
-                            <td class="kddiff"></td>
-                            <td class="score"></td>
-                        </tr>
-                        <tr class="player player-3">
-                            <td class="name"></td>
-                            <td class="health">
-                                <progress min="0" max="100" value="0"></progress>
-                            </td>
-                            <td class="money"></td>
-                            <td class="kd"></td>
-                            <td class="kddiff"></td>
-                            <td class="score"></td>
-                        </tr>
-                        <tr class="player player-4">
-                            <td class="name"></td>
-                            <td class="health">
-                                <progress min="0" max="100" value="0"></progress>
-                            </td>
-                            <td class="money"></td>
-                            <td class="kd"></td>
-                            <td class="kddiff"></td>
-                            <td class="score"></td>
-                        </tr>
                     </tbody>
-                    
+
                 </table>
             </div>
         </section>
@@ -223,25 +198,25 @@
         </div>
     </footer>
     <script>
-    	function connect () {
+        function connect() {
             let state = {};
 
-			const host = window.document.location.host;
-			const protocol = {
-				'http:': 'ws:',
-				'https:': 'wss:'
-			}[window.document.location.protocol];
+            const host = window.document.location.host;
+            const protocol = {
+                'http:': 'ws:',
+                'https:': 'wss:'
+            }[window.document.location.protocol];
 
             const url = 'wss://gamestate.magwom.gg'; // `${protocol}//${host}`;
 
-			const ws = new WebSocket(url);
+            const ws = new WebSocket(url);
 
-			ws.addEventListener('close', event => {
-				clearTimeout('connect');
-				setTimeout(connect, 100, 'connect');
-			});
+            ws.addEventListener('close', event => {
+                clearTimeout('connect');
+                setTimeout(connect, 100, 'connect');
+            });
 
-			ws.addEventListener('message', event => {
+            ws.addEventListener('message', event => {
                 const data = JSON.parse(event.data);
                 const player = data.player;
 
@@ -265,11 +240,11 @@
                     delete state.players[player.steamid];
                 }
 
-				render(state);
-			});
-		}
+                render(state);
+            });
+        }
 
-		connect();
+        connect();
 
         function render(state) {
             if (!state) {
@@ -282,8 +257,10 @@
 
             const players = Object.values(state.players);
 
-            players.forEach((player, playerIdx) => {
-                const playerElement = document.querySelector(`.stats .player-${playerIdx}`);
+            destroyInactivePlayerElement(players)
+
+            players.forEach(player => {
+                const playerElement = document.querySelector(`.stats .player[data-steamid="${player.steamid}"]`) || createPlayerElement(player.steamid)
 
                 playerElement.querySelector('.name').innerHTML = player.name;
                 playerElement.querySelector('.health progress').value = player.state.health;
@@ -311,6 +288,40 @@
 
                 playerElement.querySelector('.score').innerHTML = player.match_stats.score;
             });
+        }
+
+        function destroyInactivePlayerElement(players) {
+            [...document.querySelectorAll('.stats .player')].forEach(element => {
+                if (!players.find(p => p.steamid === element.dataset.steamid)) {
+                    element.parentElement.removeChild(element)
+                }
+            })
+        }
+
+        function createPlayerElement(steamid) {
+            const playerElement = document.createElement('tr')
+            playerElement.classList.add('player')
+            playerElement.dataset.steamid = steamid
+
+            const cols = ['name', 'health', 'money', 'kd', 'kddiff', 'score']
+            cols.forEach(col => {
+                const colElem = document.createElement('td')
+                colElem.classList.add(col)
+                playerElement.appendChild(colElem)
+
+                if (col === 'health') {
+                    const progressElem = document.createElement('progress')
+                    progressElem.min = 0
+                    progressElem.max = 100
+                    progressElem.value = 0
+                    colElem.appendChild(progressElem)
+                }
+            })
+
+            document.querySelector('.stats > tbody')
+                .appendChild(playerElement)
+
+            return playerElement
         }
 
     </script>

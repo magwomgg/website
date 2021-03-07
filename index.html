@@ -99,28 +99,37 @@
             border-top: 1px solid #ccc;
         }
 
+        .stats .player .avatar {
+            background-size: contain;
+        }
+
         .stats .player .name {
             font-weight: bold;
         }
 
-        .stats tr.player[data-steamid="76561197966071406"] .name {
-            color: #68A3E5;
+        .stats tr.player[data-steamid="76561197966071406"] .avatar {
+            /* background-color: #68A3E5; */
+            background-image: url(assets/blue-wombat-x128.png);
         }
 
-        .stats tr.player[data-steamid="76561197971672596"] .name {
-            color: #109856;
+        .stats tr.player[data-steamid="76561197971672596"] .avatar {
+            /* color: #109856; */
+            background-image: url(assets/green-wombat-x128.png);
         }
 
-        .stats tr.player[data-steamid="76561198836549192"] .name {
-            color: #EDA338;
+        .stats tr.player[data-steamid="76561198836549192"] .avatar {
+            /* color: #EDA338; */
+            background-image: url(assets/orange-wombat-x128.png);
         }
 
-        .stats tr.player[data-steamid="76561197999604935"] .name {
-            color: #803CA1;
+        .stats tr.player[data-steamid="76561197999604935"] .avatar {
+            /* color: #803CA1; */
+            background-image: url(assets/purple-wombat-x128.png);
         }
 
-        .stats tr.player[data-steamid="76561197963935371"] .name {
-            color: #E6F13D;
+        .stats tr.player[data-steamid="76561197963935371"] .avatar {
+            /* color: #E6F13D; */
+            background-image: url(assets/yellow-wombat-x128.png);
         }
 
         .kd,
@@ -179,7 +188,7 @@
                 <table class="stats">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th colspan="2">Name</th>
                             <th>Health</th>
                             <th>Money</th>
                             <th>K-D</th>
@@ -306,7 +315,7 @@
             playerElement.classList.add('player')
             playerElement.dataset.steamid = steamid
 
-            const cols = ['name', 'health', 'money', 'kd', 'kddiff', 'score']
+            const cols = ['avatar', 'name', 'health', 'money', 'kd', 'kddiff', 'score']
             cols.forEach(col => {
                 const colElem = document.createElement('td')
                 colElem.classList.add(col)

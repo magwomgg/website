@@ -287,11 +287,7 @@
 
                 playerElement.querySelector('.name').innerHTML = player.name;
                 playerElement.querySelector('.health progress').value = player.state.health;
-                playerElement.querySelector('.money').innerHTML = player.state.money.toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                    maximumFractionDigits: 0
-                });
+                playerElement.querySelector('.money').innerHTML = `$${player.state.money}`;
 
                 const kd = [player.match_stats.kills, player.match_stats.deaths].join('-');
                 playerElement.querySelector('.kd').innerHTML = kd;

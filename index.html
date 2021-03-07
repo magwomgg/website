@@ -19,6 +19,11 @@
             margin: 0;
         }
 
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin: 0 0 2rem 0;
+        }
 
         .header {
             height: 100vh;
@@ -64,12 +69,28 @@
         }
 
         .stats {
-            width: 100%;
+            background-color: #eee;
+        }
+
+        .stats table {
+            background-color: #fff;
+            box-shadow: 0 1px 2px 0 #ccc;
             border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .stats tr:nth-child(even) {
+            background-color: #f6f6f9;
+        }
+
+        .stats th {
+            background-color: #f6f6f9
         }
 
         .stats td, .stats th {
             padding: .5rem;
+            border: 1px solid #ddd;
         }
 
         .stats .player td {
@@ -77,8 +98,34 @@
             border-top: 1px solid #ccc;
         }
 
-        .kills, .assists, .deaths, .score {
+        .kd, .kddiff {
+            text-align: center;
+        }
+
+        .money, .score {
             text-align: right;
+        }
+
+        progress[value] {
+            border-radius: 0;
+            background-color: #eee;
+            width: 100%;
+        }
+
+        .negative {
+            color: rgb(228, 10, 10)
+        }
+
+        .positive {
+            color: rgb(8, 165, 0)
+        }
+
+        .zero {
+            color: rgb(53, 53, 53)
+        }
+
+        section {
+            padding: 4rem 0;
         }
     </style>
 </head>
@@ -86,68 +133,88 @@
 <body>
     <header class="header"></header>
     <main class="main">
-        <div class="container">
-            <h1>Team</h1>
-            <div class="players">
-                <img src="assets/blue-wombat-x128.png" class="player" alt="Blue Wombat" />
-                <img src="assets/green-wombat-x128.png" class="player" alt="Green Wombat" />
-                <img src="assets/orange-wombat-x128.png" class="player" alt="Orange Wombat" />
-                <img src="assets/purple-wombat-x128.png" class="player" alt="Purple Wombat" />
-                <img src="assets/yellow-wombat-x128.png" class="player" alt="Yellow Wombat" />
+        <section class="roster">
+            <div class="container">
+                <h2>Roster</h2>
+                <div class="players">
+                    <img src="assets/blue-wombat-x128.png" class="player" alt="Blue Wombat" />
+                    <img src="assets/green-wombat-x128.png" class="player" alt="Green Wombat" />
+                    <img src="assets/orange-wombat-x128.png" class="player" alt="Orange Wombat" />
+                    <img src="assets/purple-wombat-x128.png" class="player" alt="Purple Wombat" />
+                    <img src="assets/yellow-wombat-x128.png" class="player" alt="Yellow Wombat" />
+                </div>
             </div>
-        </div>
-        <div class="container">
-            <h1>Live Stats</h1>
-            <table class="stats">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Kills</th>
-                        <th>Assists</th>
-                        <th>Deaths</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="player player-0">
-                        <td class="name"></td>
-                        <td class="kills"></td>
-                        <td class="assists"></td>
-                        <td class="deaths"></td>
-                        <td class="score"></td>
-                    </tr>
-                    <tr class="player player-1">
-                        <td class="name"></td>
-                        <td class="kills"></td>
-                        <td class="assists"></td>
-                        <td class="deaths"></td>
-                        <td class="score"></td>
-                    </tr>
-                    <tr class="player player-2">
-                        <td class="name"></td>
-                        <td class="kills"></td>
-                        <td class="assists"></td>
-                        <td class="deaths"></td>
-                        <td class="score"></td>
-                    </tr>
-                    <tr class="player player-3">
-                        <td class="name"></td>
-                        <td class="kills"></td>
-                        <td class="assists"></td>
-                        <td class="deaths"></td>
-                        <td class="score"></td>
-                    </tr>
-                    <tr class="player player-4">
-                        <td class="name"></td>
-                        <td class="kills"></td>
-                        <td class="assists"></td>
-                        <td class="deaths"></td>
-                        <td class="score"></td>
-                    </tr>
-                </tbody>
-                
-            </table>
-        </div>
+        </section>
+        <section class="stats">
+            <div class="container">
+                <h2>Live Stats</h2>
+                <table class="stats">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Health</th>
+                            <th>Money</th>
+                            <th>K-D</th>
+                            <th>+/-</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="player player-0">
+                            <td class="name"></td>
+                            <td class="health">
+                                <progress min="0" max="100" value="0"></progress>
+                            </td>
+                            <td class="money"></td>
+                            <td class="kd"></td>
+                            <td class="kddiff"></td>
+                            <td class="score"></td>
+                        </tr>
+                        <tr class="player player-1">
+                            <td class="name"></td>
+                            <td class="health">
+                                <progress min="0" max="100" value="0"></progress>
+                            </td>
+                            <td class="money"></td>
+                            <td class="kd"></td>
+                            <td class="kddiff"></td>
+                            <td class="score"></td>
+                        </tr>
+                        <tr class="player player-2">
+                            <td class="name"></td>
+                            <td class="health">
+                                <progress min="0" max="100" value="0"></progress>
+                            </td>
+                            <td class="money"></td>
+                            <td class="kd"></td>
+                            <td class="kddiff"></td>
+                            <td class="score"></td>
+                        </tr>
+                        <tr class="player player-3">
+                            <td class="name"></td>
+                            <td class="health">
+                                <progress min="0" max="100" value="0"></progress>
+                            </td>
+                            <td class="money"></td>
+                            <td class="kd"></td>
+                            <td class="kddiff"></td>
+                            <td class="score"></td>
+                        </tr>
+                        <tr class="player player-4">
+                            <td class="name"></td>
+                            <td class="health">
+                                <progress min="0" max="100" value="0"></progress>
+                            </td>
+                            <td class="money"></td>
+                            <td class="kd"></td>
+                            <td class="kddiff"></td>
+                            <td class="score"></td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+            </div>
+        </section>
 
     </main>
     <footer class="footer">
@@ -219,11 +286,35 @@
                 const playerElement = document.querySelector(`.stats .player-${playerIdx}`);
 
                 playerElement.querySelector('.name').innerHTML = player.name;
-                playerElement.querySelector('.kills').innerHTML = player.match_stats.kills;
-                playerElement.querySelector('.assists').innerHTML = player.match_stats.assists;
-                playerElement.querySelector('.deaths').innerHTML = player.match_stats.deaths;
+                playerElement.querySelector('.health progress').value = player.state.health;
+                playerElement.querySelector('.money').innerHTML = player.state.money.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    maximumFractionDigits: 0
+                });
+
+                const kd = [player.match_stats.kills, player.match_stats.deaths].join('-');
+                playerElement.querySelector('.kd').innerHTML = kd;
+
+                const kdDiff = player.match_stats.kills - player.match_stats.deaths;
+                playerElement.querySelector('.kddiff').innerHTML = kdDiff;
+
+                if (kdDiff < 0) {
+                    playerElement.querySelector('.kddiff').classList.add('negative');
+                    playerElement.querySelector('.kddiff').classList.remove('zero');
+                    playerElement.querySelector('.kddiff').classList.remove('positive');
+                } else if (kdDiff === 0) {
+                    playerElement.querySelector('.kddiff').classList.remove('negative');
+                    playerElement.querySelector('.kddiff').classList.add('zero');
+                    playerElement.querySelector('.kddiff').classList.remove('positive');
+                } else if (kdDiff > 0) {
+                    playerElement.querySelector('.kddiff').classList.remove('negative');
+                    playerElement.querySelector('.kddiff').classList.remove('zero');
+                    playerElement.querySelector('.kddiff').classList.add('positive');
+                }
+
                 playerElement.querySelector('.score').innerHTML = player.match_stats.score;
-            })
+            });
         }
 
     </script>

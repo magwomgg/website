@@ -68,6 +68,10 @@
             border-spacing: 0;
         }
 
+        .stats td, .stats th {
+            padding: .5rem;
+        }
+
         .stats .player td {
             padding: .5rem;
             border-top: 1px solid #ccc;
@@ -83,7 +87,17 @@
     <header class="header"></header>
     <main class="main">
         <div class="container">
-            <h1>Stats</h1>
+            <h1>Team</h1>
+            <div class="players">
+                <img src="assets/blue-wombat-x128.png" class="player" alt="Blue Wombat" />
+                <img src="assets/green-wombat-x128.png" class="player" alt="Green Wombat" />
+                <img src="assets/orange-wombat-x128.png" class="player" alt="Orange Wombat" />
+                <img src="assets/purple-wombat-x128.png" class="player" alt="Purple Wombat" />
+                <img src="assets/yellow-wombat-x128.png" class="player" alt="Yellow Wombat" />
+            </div>
+        </div>
+        <div class="container">
+            <h1>Live Stats</h1>
             <table class="stats">
                 <thead>
                     <tr>
@@ -134,16 +148,7 @@
                 
             </table>
         </div>
-        <div class="container">
-            <h1>Team</h1>
-            <div class="players">
-                <img src="assets/blue-wombat-x128.png" class="player" alt="Blue Wombat" />
-                <img src="assets/green-wombat-x128.png" class="player" alt="Green Wombat" />
-                <img src="assets/orange-wombat-x128.png" class="player" alt="Orange Wombat" />
-                <img src="assets/purple-wombat-x128.png" class="player" alt="Purple Wombat" />
-                <img src="assets/yellow-wombat-x128.png" class="player" alt="Yellow Wombat" />
-            </div>
-        </div>
+
     </main>
     <footer class="footer">
         <div class="container">
@@ -181,12 +186,16 @@
                     return;
                 }
 
-                state = {
-                    ...state,
-                    players: {
-                        ...state.players,
-                        [player.steamid]: player
+                if (player.activity === 'playing') {
+                    state = {
+                        ...state,
+                        players: {
+                            ...state.players,
+                            [player.steamid]: player
+                        }
                     }
+                } else {
+                    delete state.players[player.steamid];
                 }
 
 				render(state);

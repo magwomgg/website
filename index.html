@@ -41,7 +41,7 @@
             flex-wrap: wrap;
         }
 
-        .player {
+        img.player {
             width: 128px;
             height: 128px;
             border-radius: 64px;
@@ -63,12 +63,77 @@
             padding: 1rem;
         }
 
+        .stats {
+            width: 100%;
+            border-spacing: 0;
+        }
+
+        .stats .player td {
+            padding: .5rem;
+            border-top: 1px solid #ccc;
+        }
+
+        .kills, .assists, .deaths, .score {
+            text-align: right;
+        }
     </style>
 </head>
 
 <body>
     <header class="header"></header>
     <main class="main">
+        <div class="container">
+            <h1>Stats</h1>
+            <table class="stats">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Kills</th>
+                        <th>Assists</th>
+                        <th>Deaths</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="player player-0">
+                        <td class="name"></td>
+                        <td class="kills"></td>
+                        <td class="assists"></td>
+                        <td class="deaths"></td>
+                        <td class="score"></td>
+                    </tr>
+                    <tr class="player player-1">
+                        <td class="name"></td>
+                        <td class="kills"></td>
+                        <td class="assists"></td>
+                        <td class="deaths"></td>
+                        <td class="score"></td>
+                    </tr>
+                    <tr class="player player-2">
+                        <td class="name"></td>
+                        <td class="kills"></td>
+                        <td class="assists"></td>
+                        <td class="deaths"></td>
+                        <td class="score"></td>
+                    </tr>
+                    <tr class="player player-3">
+                        <td class="name"></td>
+                        <td class="kills"></td>
+                        <td class="assists"></td>
+                        <td class="deaths"></td>
+                        <td class="score"></td>
+                    </tr>
+                    <tr class="player player-4">
+                        <td class="name"></td>
+                        <td class="kills"></td>
+                        <td class="assists"></td>
+                        <td class="deaths"></td>
+                        <td class="score"></td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
         <div class="container">
             <h1>Team</h1>
             <div class="players">
@@ -85,6 +150,74 @@
             <p>&copy; MAGWOM 2021</p>
         </div>
     </footer>
+    <script>
+    	function connect () {
+            let state = {};
+
+			const host = window.document.location.host;
+			const protocol = {
+				'http:': 'ws:',
+				'https:': 'wss:'
+			}[window.document.location.protocol];
+
+            const url = 'wss://gamestate.magwom.gg'; // `${protocol}//${host}`;
+
+			const ws = new WebSocket(url);
+
+			ws.addEventListener('close', event => {
+				clearTimeout('connect');
+				setTimeout(connect, 100, 'connect');
+			});
+
+			ws.addEventListener('message', event => {
+                const data = JSON.parse(event.data);
+                const player = data.player;
+
+                if (!player) {
+                    return;
+                }
+
+                if (player.clan !== 'MAGWOM') {
+                    return;
+                }
+
+                state = {
+                    ...state,
+                    players: {
+                        ...state.players,
+                        [player.steamid]: player
+                    }
+                }
+
+				render(state);
+			});
+		}
+
+		connect();
+
+        function render(state) {
+            if (!state) {
+                return;
+            }
+
+            if (!state.players) {
+                return;
+            }
+
+            const players = Object.values(state.players);
+
+            players.forEach((player, playerIdx) => {
+                const playerElement = document.querySelector(`.stats .player-${playerIdx}`);
+
+                playerElement.querySelector('.name').innerHTML = player.name;
+                playerElement.querySelector('.kills').innerHTML = player.match_stats.kills;
+                playerElement.querySelector('.assists').innerHTML = player.match_stats.assists;
+                playerElement.querySelector('.deaths').innerHTML = player.match_stats.deaths;
+                playerElement.querySelector('.score').innerHTML = player.match_stats.score;
+            })
+        }
+
+    </script>
 </body>
 
 </html>
